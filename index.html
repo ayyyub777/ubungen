@@ -102,30 +102,6 @@
             margin-top: 10px;
             font-weight: bold;
         }
-        .score-summary {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-            display: none;
-        }
-        .score-summary h2 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        .score-percent {
-            font-size: 24px;
-            font-weight: bold;
-            color: #3498db;
-            margin: 10px 0;
-        }
-        .score-details {
-            font-size: 16px;
-            color: #7f8c8d;
-        }
     </style>
 </head>
 <body>
@@ -138,12 +114,6 @@
     <div class="button-container">
         <button id="check-all-answers">Check All Answers</button>
         <button id="reset-all">Reset All</button>
-    </div>
-    
-    <div id="score-summary" class="score-summary">
-        <h2>Final Score</h2>
-        <div id="score-percent" class="score-percent">0%</div>
-        <div id="score-details" class="score-details">0 out of 0 correct answers</div>
     </div>
     
     <script>
@@ -178,7 +148,7 @@
                     8: ["möchte", "möchten", "kann"],
                     9: ["möchte", "möchten", "kann"]
                 },
-                answers: {1: "bekommen", 2: "den", 3: "in der", 4: "ist", 5: "mir", 6: "angerufen", 7: "ab", 8: "kann", 9: "möchte"}
+                answers: {1: "bekommen", 2: "den", 3: "Er", 4: "ich", 5: "mir", 6: "angerufen", 7: "ab", 8: "kann", 9: "möchte"}
             },
             3: {
                 title: "Übung 3: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
@@ -193,7 +163,7 @@
                     7: ["ihrer", "seiner", "sein"],
                     8: ["ist", "hat", "kommt"]
                 },
-                answers: {1: "bin", 2: "aus", 3: "einen", 4: "gehe", 5: "will", 6: "will", 7: "ihr", 8: "ist"}
+                answers: {1: "schlafe", 2: "aus", 3: "einen", 4: "musst", 5: "will", 6: "müssen", 7: "ihrer", 8: "ist"}
             },
             4: {
                 title: "Übung 4: Lesen Sie den Text durch und wählen Sie die passenden Formulierungen.",
@@ -208,7 +178,7 @@
                     7: ["an dem", "an", "am"],
                     8: ["nimm", "nehmen", "nimmt"]
                 },
-                answers: {1: "meinen", 2: "am", 3: "habe", 4: "am", 5: "Freitag", 6: "kann", 7: "jeden", 8: "denn"}
+                answers: {1: "zur", 2: "am", 3: "habe", 4: "parkt", 5: "auf der", 6: "kann", 7: "am", 8: "nimmt"}
             },
             5: {
                 title: "Übung 5: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
@@ -253,7 +223,7 @@
                     7: ["um", "am", "im"],
                     8: ["Dir", "Ihm", "Ihnen"]
                 },
-                answers: {1: "kann", 2: "sind", 3: "in die", 4: "geregnet", 5: "gegangen", 6: "muss", 7: "am", 8: "Ihnen"}
+                answers: {1: "konnte", 2: "sind", 3: "in die", 4: "geregnet", 5: "gegangen", 6: "muss", 7: "am", 8: "Ihnen"}
             },
             8: {
                 title: "Übung 8: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
@@ -298,7 +268,7 @@
                     7: ["darf", "darfst", "darf"],
                     8: ["mein", "mir", "mich"]
                 },
-                answers: {1: "nach", 2: "habe", 3: "Ich", 4: "ins", 5: "meinen", 6: "ihrem", 7: "darf", 8: "mich"}
+                answers: {1: "gekommen", 2: "habe", 3: "hatte", 4: "zum", 5: "meinen", 6: "ihrem", 7: "darf", 8: "mich"}
             },
             11: {
                 title: "Übung 11: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
@@ -313,7 +283,7 @@
                     7: ["fahr", "fährt", "fahren"],
                     8: ["denn", "oder", "aber"]
                 },
-                answers: {1: "wichtig", 2: "jeden", 3: "Zentrum", 4: "gefällt", 5: "kann", 6: "meinem", 7: "fährt", 8: "denn"}
+                answers: {1: "wichtig", 2: "jeden", 3: "zentrum", 4: "gefällt", 5: "kann", 6: "meinem", 7: "fährt", 8: "denn"}
             },
             12: {
                 title: "Übung 12: Lesen Sie den Dialog durch und wählen Sie jeweils das passende Wort aus.",
@@ -358,7 +328,7 @@
                     7: ["an dem", "an", "am"],
                     8: ["nimm", "nehmen", "nimmt"]
                 },
-                answers: {1: "Monate", 2: "Sehenswürdigkeiten", 3: "gestern", 4: "Essen", 5: "Mittwoch", 6: "Bitte", 7: "S-Bahn", 8: "nimm"}
+                answers: {1: "war", 2: "haben", 3: "nach", 4: "geregnet", 5: "gegangen", 6: "kann", 7: "am", 8: "nimm"}
             },
             15: {
                 title: "Übung 15: Lesen Sie den Text und wählen Sie die richtige Antwort aus.",
@@ -373,7 +343,7 @@
                     7: ["arbeitet", "arbeiten"],
                     8: ["sind wir", "ist er"]
                 },
-                answers: {1: "Kollegin", 2: "Dort", 3: "kommt", 4: "sind", 5: "leben", 6: "bist", 7: "arbeitest", 8: "sind"}
+                answers: {1: "Kollegen", 2: "Dort", 3: "kommt", 4: "sind", 5: "leben", 6: "bist", 7: "arbeitest", 8: "sind wir"}
             },
             16: {
                 title: "Übung 16: Lesen Sie den Text und wählen Sie die passenden Wörter für die Lücken.",
@@ -388,11 +358,11 @@
                     7: ["an dem", "an", "am"],
                     8: ["nimm", "nehmen", "nimmt"]
                 },
-                answers: {1: "am", 2: "dich", 3: "bis", 4: "die Messe", 5: "von", 6: "repariert", 7: "Sollen", 8: "wir"}
+                answers: {1: "am", 2: "an der", 3: "um", 4: "parken", 5: "auf", 6: "muss", 7: "am", 8: "nehmen"}
             },
             17: {
                 title: "Übung 17: Lesen Sie die Sätze. Wählen Sie die richtige Form.",
-                text: "Wie finde ich den Weg?\n1. Wie komme ich [1] Carl-Röntgen-Straße?\n2. Zum Rathaus? [2] Sie die Straße geradeaus weiter.\n3. Muss ich [3] ersten Kreuzung abbiegen?\n4. [4] die dritte Straße links ab.\n5. Fahr nach zwanzig Kilometern [5] Bundesstraße 51.\n6. [6] Sie Ihr Auto im Parkhaus „Altstadt-Nord“.\n7. Steigen Sie nicht [7] S-Bahnhof „Brühl-West“, sondern „Brühl-Mitte“ aus.\n8. [8] doch die Linie S6 bis „Markt“.",
+                text: "Wie finde ich den Weg?\n1. Wie komme ich [1] Carl-Röntgen-Straße?\n2. Zum Rathaus? [2] Sie die Straße geradeaus weiter.\n3. Muss ich [3] ersten Kreuzung abbiegen?\n4. [4] die dritte Straße links ab.\n5. Fahr nach zwanzig Kilometern [5] Bundesstraße 51.\n6. [6] Sie Ihr Auto im Parkhaus „Altstadt-Nord".\n7. Steigen Sie nicht [7] S-Bahnhof „Brühl-West", sondern „Brühl-Mitte" aus.\n8. [8] doch die Linie S6 bis „Markt".",
                 options: {
                     1: ["auf", "zur", "nach"],
                     2: ["gehen", "gehend", "am"],
@@ -403,7 +373,7 @@
                     7: ["an dem", "an", "am"],
                     8: ["nimm", "nehmen", "nimmt"]
                 },
-                answers: {1: "zur", 2: "Gehen", 3: "an der", 4: "Fahren Sie", 5: "auf die", 6: "Stellen", 7: "am", 8: "Nehmen Sie"}
+                answers: {1: "zur", 2: "gehen", 3: "habe", 4: "parken", 5: "auf", 6: "muss", 7: "am", 8: "nimm"}
             }
         };
         
@@ -529,57 +499,9 @@
         
         // Check all exercises
         function checkAllAnswers() {
-            let totalCorrect = 0;
-            let totalQuestions = 0;
-            
             Object.keys(exercises).forEach(exerciseNumber => {
-                const exercise = exercises[exerciseNumber];
-                if (!exercise || !exercise.answers) return;
-                
-                // Get all select elements for this exercise
-                const selects = document.querySelectorAll(`select[data-exercise="${exerciseNumber}"]`);
-                selects.forEach(select => {
-                    const number = select.dataset.number;
-                    if (exercise.answers[number]) {
-                        totalQuestions++;
-                        if (select.value === exercise.answers[number]) {
-                            select.className = 'correct';
-                            totalCorrect++;
-                        } else {
-                            select.className = 'incorrect';
-                        }
-                    }
-                });
-                
-                // Show feedback for this exercise
-                const feedback = document.getElementById(`feedback-${exerciseNumber}`);
-                const correctForExercise = Array.from(selects).filter(select => 
-                    select.className === 'correct' && exercise.answers[select.dataset.number]).length;
-                const totalForExercise = Object.keys(exercise.answers).length;
-                feedback.innerHTML = `You got ${correctForExercise} out of ${totalForExercise} correct!`;
-                feedback.className = correctForExercise === totalForExercise ? 
-                    'exercise-feedback correct-feedback' : 'exercise-feedback incorrect-feedback';
-                feedback.style.display = 'block';
+                checkExercise(exerciseNumber);
             });
-            
-            // Display the final score
-            displayFinalScore(totalCorrect, totalQuestions);
-        }
-        
-        // Function to display the final score
-        function displayFinalScore(correct, total) {
-            const scoreSummary = document.getElementById('score-summary');
-            const scorePercent = document.getElementById('score-percent');
-            const scoreDetails = document.getElementById('score-details');
-            
-            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
-            
-            scorePercent.textContent = `${percentage}%`;
-            scoreDetails.textContent = `${correct} out of ${total} correct answers`;
-            scoreSummary.style.display = 'block';
-            
-            // Scroll to the score summary
-            scoreSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         
         // Reset all exercises
@@ -587,9 +509,6 @@
             Object.keys(exercises).forEach(exerciseNumber => {
                 resetExercise(exerciseNumber);
             });
-            
-            // Hide the score summary
-            document.getElementById('score-summary').style.display = 'none';
         }
         
         // Event listeners for global buttons

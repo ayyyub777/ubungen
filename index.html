@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Übungen ✍️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .exercise-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .exercise-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #3498db;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .exercise-text {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        select {
+            font-size: 16px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+            background-color: #f9f9f9;
+        }
+        select.correct {
+            border-color: #2ecc71;
+            background-color: #e8f8f2;
+        }
+        select.incorrect {
+            border-color: #e74c3c;
+            background-color: #fcf0f0;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .correct-feedback {
+            background-color: #e8f8f2;
+            color: #2ecc71;
+        }
+        .incorrect-feedback {
+            background-color: #fcf0f0;
+            color: #e74c3c;
+        }
+        .exercise-separator {
+            border-top: 2px dashed #bdc3c7;
+            margin: 30px 0;
+        }
+        .exercise-feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Übungen ✍️</h1>
+    
+    <div id="all-exercises-container">
+        <!-- All exercises will be loaded here -->
+    </div>
+    
+    <div class="button-container">
+        <button id="check-all-answers">Check All Answers</button>
+        <button id="reset-all">Reset All</button>
+    </div>
+    
+    <script>
+        // Exercise data
+        const exercises = {
+            1: {
+                title: "Übung 1: Lesen Sie und wählen Sie die richtige Form aus.",
+                text: "Liebe Karolina, danke für deinen Brief. Ich habe mich sehr gefreut. Ich [1] jetzt schon drei Monate in Neustadt. Ich habe [2] schöne Wohnung. Sie ist klein, aber sie hat einen Balkon. [3] Nachbarn sind auch sehr nett. [4] helfen mir oft. Ich lade sie bald zu Kaffee und Kuchen ein. Ich nehme hier an einem Deutschkurs [5] teil. Gestern [6] ich zum ersten Mal im Deutschkurs. Ich kann schon ein bisschen Deutsch sprechen, aber ich [7] noch viel lernen. [8] Deutschkurs ist viermal pro Woche. Ich lerne also schnell. Viele Grüße Sascha",
+                options: {
+                    1: ["wohne", "wohnst", "wohnen"],
+                    2: ["ein", "eine", "einen"],
+                    3: ["Mein", "Meine", "Meinen"],
+                    4: ["Er", "Sie", "Wir"],
+                    5: ["teil", "aus", "mit"],
+                    6: ["bin", "war", "hatte"],
+                    7: ["muss", "musst", "müssen"],
+                    8: ["Das", "Der", "Die"]
+                },
+                answers: {1: "wohne", 2: "eine", 3: "Meine", 4: "Sie", 5: "teil", 6: "war", 7: "muss", 8: "Der"}
+            },
+            2: {
+                title: "Übung 2: Lesen Sie und wählen Sie die richtige Form aus.",
+                text: "Liebe Maria, wie geht es dir? Mir geht es sehr gut. Ich habe einen Praktikumsplatz in einem Kindergarten [1]. Ich habe lange gesucht, aber ich finde keine Stelle als Mechanikerin und im Büro will ich nicht arbeiten. Vor zwei Wochen hatte ich die Idee mit dem Kindergarten. Kennst du [2] Kindergarten [3] Bergstraße? Am Montag [4] ist neu und hat einen tollen Spielplatz. Er gefällt [5] sehr gut. Sie war sehr nett und hat mir auch eine Erzieherin gesprochen. [6] war sehr nett und hat mir eine Gruppe gezeigt. Gestern hat sie mich [7] und [8] September kann ich dort ein Praktikum machen. Danach [9] ich eine Ausbildung zur Erzieherin machen. Ich freue mich total. Bis bald! Nadja",
+                options: {
+                    1: ["gebekommen", "bekommt", "bekommen"],
+                    2: ["der", "den", "das"],
+                    3: ["Er", "Sie", "Es"],
+                    4: ["ich", "mir", "sich"],
+                    5: ["sein", "seine", "ihre"],
+                    6: ["genau", "genauft", "angerufen"],
+                    7: ["ab", "von", "seit"],
+                    8: ["möchte", "möchten", "kann"],
+                    9: ["möchte", "möchten", "kann"]
+                },
+                answers: {1: "bekommen", 2: "den", 3: "in der", 4: "ist", 5: "mir", 6: "angerufen", 7: "ab", 8: "kann", 9: "möchte"}
+            },
+            3: {
+                title: "Übung 3: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
+                text: "Am Samstag [1] ich endlich frei [2]. Dann trinke ich [3] Kaffee und frühstücke in Ruhe. Danach [4] ich einkaufen. Am Abend [5] ich ins Kino gehen. Ich [6] auch Anna fragen. Aber ich glaube, [7] Freund ist zu Besuch. Und sie [8] am Donnerstag schon im Kino.",
+                options: {
+                    1: ["schläft", "schlafe", "schlafen"],
+                    2: ["aus", "an", "ein"],
+                    3: ["einen", "einen", "ein"],
+                    4: ["müssen", "musst", "müssen"],
+                    5: ["müssen", "darf", "will"],
+                    6: ["müssen", "meine", "meiner"],
+                    7: ["ihrer", "seiner", "sein"],
+                    8: ["ist", "hat", "kommt"]
+                },
+                answers: {1: "bin", 2: "aus", 3: "einen", 4: "gehe", 5: "will", 6: "will", 7: "ihr", 8: "ist"}
+            },
+            4: {
+                title: "Übung 4: Lesen Sie den Text durch und wählen Sie die passenden Formulierungen.",
+                text: "Ich habe [1] 36. Geburtstag sehr schön gefeiert, das war [2] Freitag. Ich [3] gearbeitet, aber nur bis halb eins. Mein Mann hat [4] zum [5] Freitag, ich [6] man nichts machen. Ich [7] auch jeden Tag in der Stadt. Er ist froh, [8] er hat kein Auto.",
+                options: {
+                    1: ["auf", "zur", "nach"],
+                    2: ["gehen", "gehend", "am"],
+                    3: ["war", "hatte", "habe"],
+                    4: ["park", "parkt", "parken"],
+                    5: ["auf", "auf die", "auf der"],
+                    6: ["muss", "darfst", "kann"],
+                    7: ["an dem", "an", "am"],
+                    8: ["nimm", "nehmen", "nimmt"]
+                },
+                answers: {1: "meinen", 2: "am", 3: "habe", 4: "am", 5: "Freitag", 6: "kann", 7: "jeden", 8: "denn"}
+            },
+            5: {
+                title: "Übung 5: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
+                text: "JAN Hallo Ina, wir sind jetzt in Hamburg!\nINA Wie schön, [1] wann seid ihr da?\nJAN Wir sind [2] zwei Tagen abends angekommen, [3] gestern haben wir nur geschlafen.\nINA Ach so, [4] seid ihr heute auch noch nicht fit?\nJAN [5], jetzt sind wir bereit für Hamburg, und wir möchten dich gern treffen! [6] Restaurant kannst du empfehlen?\nINA Für [7] Abend oder für mittags?\nJAN Für abends, [8] wir möchten dich gern richtig schön einladen und dann Hamburg bei Nacht sehen!",
+                options: {
+                    1: ["am", "vor", "seit"],
+                    2: ["um", "vor", "seit"],
+                    3: ["aber", "oder", "denn"],
+                    4: ["und", "oder", "denn"],
+                    5: ["Ja", "Nein", "Doch"],
+                    6: ["Was", "Welches", "Dieses"],
+                    7: ["der", "den", "dem"],
+                    8: ["aber", "oder", "denn"]
+                },
+                answers: {1: "seit", 2: "vor", 3: "denn", 4: "und", 5: "Ja", 6: "Welches", 7: "den", 8: "oder"}
+            },
+            6: {
+                title: "Übung 6: Lesen Sie den Brief durch und wählen Sie jeweils das passende Wort aus.",
+                text: "Hallo Sabine, seit einem Monat [1] ich als Au-pair in Deutschland. Ich lerne Deutsch und besuche [2] Deutschkurs. Ich [3] schon ein bisschen sprechen. Meine Gastfamilie ist [4] nett. Ich betreue zwei Kinder. [5] Vormittag bringe ich Paul und Meike in den Kindergarten. Dann gehe ich zum Deutschkurs. Am Nachmittag mache ich [6] Hausaufgaben und spiele mit den Kindern. Abends sehe ich ein bisschen [7]. [8] 22 Uhr gehe ich ins Bett. Bis bald und viele Grüße Anna",
+                options: {
+                    1: ["ist", "bin", "sind"],
+                    2: ["ein", "eine", "einen"],
+                    3: ["kann", "kanne", "könne"],
+                    4: ["viel", "sehr", "gut"],
+                    5: ["Um", "Am", "Auf"],
+                    6: ["meine", "ihre", "seine"],
+                    7: ["fern", "vor", "auf"],
+                    8: ["Nach", "Am", "Um"]
+                },
+                answers: {1: "bin", 2: "einen", 3: "kann", 4: "sehr", 5: "Am", 6: "meine", 7: "fern", 8: "Um"}
+            },
+            7: {
+                title: "Übung 7: Lesen Sie die E-Mail durch und wählen Sie jeweils das passende Wort aus.",
+                text: "Lieber Herr Richter, meine Tochter Anja [1] heute nicht zum Unterricht kommen. Wir [2] am Wochenende mit dem Rad [3] Schweiz gefahren. Am Sonntag hat es stark [4] und jetzt ist Anja leider krank. Wir sind heute auch zum Arzt [5]. Sie hat Fieber und [6] im Bett bleiben. Wahrscheinlich kann sie [7] fünften August wieder in die Schule kommen. Das Attest vom Arzt schicke ich [8] per Post. Viele Grüße Verena Rosso",
+                options: {
+                    1: ["war", "konnte", "hatte"],
+                    2: ["müssen", "haben", "sind"],
+                    3: ["zur", "in die", "nach"],
+                    4: ["regnen", "regnet", "geregnet"],
+                    5: ["gegeht", "gegangen", "gehen"],
+                    6: ["muss", "darf", "kann"],
+                    7: ["um", "am", "im"],
+                    8: ["Dir", "Ihm", "Ihnen"]
+                },
+                answers: {1: "kann", 2: "sind", 3: "in die", 4: "geregnet", 5: "gegangen", 6: "muss", 7: "am", 8: "Ihnen"}
+            },
+            8: {
+                title: "Übung 8: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
+                text: "A: Entschuldigung, [1] Sie Deutsch?\nB: Ja, ich [2] Deutsch.\nA: Woher [3] Sie?\nB: Ich [4] aus Deutschland.\nA: [5] Sie in Berlin?\nB: Nein, ich [6] in München. Und Sie?\nA: Ich [7] aus Wien.\nB: Ah, Wien [8] schön.",
+                options: {
+                    1: ["sprichst", "spreche", "sprechen"],
+                    2: ["sprecht", "spreche", "sprechen"],
+                    3: ["komme", "kommt", "kommen"],
+                    4: ["sprechen", "wohnen", "komme"],
+                    5: ["wohnst", "heißt", "Wohnen"],
+                    6: ["wohne", "komme", "kommt"],
+                    7: ["wohne", "komme", "kommt"],
+                    8: ["ist", "hat", "kommt"]
+                },
+                answers: {1: "sprechen", 2: "spreche", 3: "kommen", 4: "komme", 5: "Wohnen", 6: "wohne", 7: "komme", 8: "ist"}
+            },
+            9: {
+                title: "Übung 9: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
+                text: "Hallo, ich heiße Tom Berger und [1] Medizin. Von Montag [2] Freitag bin ich an der Uni. Meistens mache ich [3] 13.00 Uhr eine Pause und esse etwas. Abends [4] ich oft lernen. Ich bin Anke Friese und ich arbeite [5] einem Hotel. Im Hotel mache ich [6] Praktikum. Ich möchte gern in einem Büro [7]. Da [8] am Wochenende frei.",
+                options: {
+                    1: ["lerne", "studiere", "arbeite"],
+                    2: ["zum", "ab", "bis"],
+                    3: ["um", "auf", "an"],
+                    4: ["muss", "musst", "müssen"],
+                    5: ["in", "an", "bei"],
+                    6: ["einen", "eine", "ein"],
+                    7: ["arbeite", "arbeiten", "arbeitest"],
+                    8: ["ich habe", "habe ich", "ich bin"]
+                },
+                answers: {1: "studiere", 2: "bis", 3: "um", 4: "muss", 5: "in", 6: "ein", 7: "arbeiten", 8: "habe ich"}
+            },
+            10: {
+                title: "Übung 10: Lesen Sie die Sätze. Wählen Sie die richtige Form aus.",
+                text: "Ich bin vor 10 Jahren [1] nach Berlin [2] in New York gewohnt. [3] er viel Spaß. Morgen gehe ich [4] Kino. Ich wohne noch bei [5] Eltern. Sie geht mit [6] Freund ins Theater. Jan [7] nicht mit dem Rad fahren. Holt du [8] bitte um 5.00 Uhr ab?",
+                options: {
+                    1: ["gekommet", "gekommen", "kommt"],
+                    2: ["bin", "habe", "haben"],
+                    3: ["hat", "hatte", "haben"],
+                    4: ["zum", "ab", "bis"],
+                    5: ["meinen", "meiner", "meine"],
+                    6: ["ihrem", "seiner", "sein"],
+                    7: ["darf", "darfst", "darf"],
+                    8: ["mein", "mir", "mich"]
+                },
+                answers: {1: "nach", 2: "habe", 3: "Ich", 4: "ins", 5: "meinen", 6: "ihrem", 7: "darf", 8: "mich"}
+            },
+            11: {
+                title: "Übung 11: Lesen Sie den Text. Wählen Sie die richtige Form aus.",
+                text: "Mein Auto ist mir [1]. Ich brauche es [2] jeden Tag. Ich wohne nicht im [3] und habe wenig Zeit. Das [4] mir nicht. Aber da [5] man nichts machen. Ich stelle mein Auto mit [6] Freund. Er [7] auch jeden Tag in die Stadt. Er ist froh, [8] er hat kein Auto.",
+                options: {
+                    1: ["wichtig", "wichtiger", "wichtig"],
+                    2: ["jedes", "jeden", "jede"],
+                    3: ["zentrum", "zentral", "zentra"],
+                    4: ["gefällt", "gefall", "gefallen"],
+                    5: ["kann", "kanst", "kann"],
+                    6: ["meinen", "meiner", "meinem"],
+                    7: ["fahr", "fährt", "fahren"],
+                    8: ["denn", "oder", "aber"]
+                },
+                answers: {1: "wichtig", 2: "jeden", 3: "Zentrum", 4: "gefällt", 5: "kann", 6: "meinem", 7: "fährt", 8: "denn"}
+            },
+            12: {
+                title: "Übung 12: Lesen Sie den Dialog durch und wählen Sie jeweils das passende Wort aus.",
+                text: "• Alex: Hallo Ida, willst du beim Marathon starten?\n○ Ida: Ja, ich [1] gern.\n• Alex: Trainierst du jeden Tag?\n○ Ida: Ja, jeden Abend [2] ich 5 km im Park.\n• Alex: Bist du auch im Vorjahr [3]?\n○ Ida: Nein, denn ich bin beim [4] gestürzt.\n• Alex: [5] du noch andere Hobbys?\n○ Ida: Gymnastik und Handball.\n• Alex: Ah, du bist wirklich sehr [6].\n○ Ida: Beim Marathon bin ich allein, [7] beim Handball treffe ich meine Freunde. Das mag ich sehr.\n• Alex: [8] du dort auch Michael?\n○ Ida: Ja, den sehe ich dort jeden Dienstag.",
+                options: {
+                    1: ["kann", "muss", "möchte"],
+                    2: ["spiele", "laufe", "starte"],
+                    3: ["starten", "startest", "gestartet"],
+                    4: ["Training", "Termin", "Sieg"],
+                    5: ["Hat", "Hast", "Haben"],
+                    6: ["sportlich", "gut", "glücklich"],
+                    7: ["oder", "denn", "aber"],
+                    8: ["Trifft", "Triffst", "Treffen"]
+                },
+                answers: {1: "möchte", 2: "laufe", 3: "gestartet", 4: "Training", 5: "Hast", 6: "sportlich", 7: "aber", 8: "Triffst"}
+            },
+            13: {
+                title: "Übung 13: Lesen Sie die Sätze durch und wählen Sie jeweils die passende Form aus.",
+                text: "1. Liebe Freunde, [1] pünktlich zum Fußballtraining.\n2. [2] wir ins Kino gehen?\n3. Hans, [3] keine Angst, du kannst es!\n4. Frau Berger, bitte [4] nicht den Termin.\n5. Hast du Probleme? [5] ich dir helfen?\n6. Liebe Kinder, [6] vorsichtig!\n7. Max, [7] bitte nicht so schnell!\n8. [8] wir zusammen essen gehen. Hast du Lust?",
+                options: {
+                    1: ["komm", "kommt", "kommen Sie"],
+                    2: ["Müssen", "Mögen", "Sollen"],
+                    3: ["hab", "habt", "haben Sie"],
+                    4: ["vergessen Sie", "vergesst", "vergiss"],
+                    5: ["Will", "Soll", "Muss"],
+                    6: ["sei", "seid", "seien Sie"],
+                    7: ["fahr", "fährst du", "fahren Sie"],
+                    8: ["Dürfen", "Können", "Wollen"]
+                },
+                answers: {1: "kommt", 2: "Sollen", 3: "hab", 4: "vergessen Sie", 5: "Soll", 6: "seid", 7: "fahr", 8: "Wollen"}
+            },
+            14: {
+                title: "Übung 14: Lesen Sie den Brief durch und wählen Sie jeweils das passende Wort aus.",
+                text: "Liebe Doris, ich bin schon vier [1] gut. Ich habe schon einige [2] gesehen, zum Beispiel das Münster und den Bärenpark. Meine neuen Kollegen sind total nett und [3] war ich auf einer Gillparty. In der Schweiz bringen alle ihr [4] selbst macht mir Spaß. Am [5] selbs gemacht, echt peinlich! Wann kommst du nach Bern? [6] nimm doch die [7] es sind nur 3 Stunden! Liebe Grüße",
+                options: {
+                    1: ["war", "konnte", "hatte"],
+                    2: ["müssen", "haben", "sind"],
+                    3: ["zur", "in die", "nach"],
+                    4: ["regnen", "regnet", "geregnet"],
+                    5: ["gegeht", "gegangen", "gehen"],
+                    6: ["muss", "darf", "kann"],
+                    7: ["an dem", "an", "am"],
+                    8: ["nimm", "nehmen", "nimmt"]
+                },
+                answers: {1: "Monate", 2: "Sehenswürdigkeiten", 3: "gestern", 4: "Essen", 5: "Mittwoch", 6: "Bitte", 7: "S-Bahn", 8: "nimm"}
+            },
+            15: {
+                title: "Übung 15: Lesen Sie den Text und wählen Sie die richtige Antwort aus.",
+                text: "Guten Morgen, Frau Seidel. Ich bin Gloria, Ihre [1] im Marketing. [2] dort ist Ihr Büro. Ah, da [3] José. Wir beide [4] aus Spanien. [5] jetzt schon drei Jahre in Deutschland. Sag, José, wo [6] und [7] auch im Marketing. Und wir kommen [8] ein prima Team.",
+                options: {
+                    1: ["Kollege", "Kollegen"],
+                    2: ["sehen Sie", "siehst du"],
+                    3: ["kommt", "kommen"],
+                    4: ["sein", "sind"],
+                    5: ["lebt", "leben"],
+                    6: ["bist", "ist"],
+                    7: ["arbeitet", "arbeiten"],
+                    8: ["sind wir", "ist er"]
+                },
+                answers: {1: "Kollegin", 2: "Dort", 3: "kommt", 4: "sind", 5: "leben", 6: "bist", 7: "arbeitest", 8: "sind"}
+            },
+            16: {
+                title: "Übung 16: Lesen Sie den Text und wählen Sie die passenden Wörter für die Lücken.",
+                text: "Liebe Anna, wann kommst du nach München an? Ich arbeite [1] Donnerstag in München. Das Zimmer für [2] Uhr und bin dann [3] sechs zu Freitagmorgen auf der Messe? Und wie lange geht [4] ich habe am Freitag [5] 15:00 bis 16:00 einen Termin. Der Computer! Ein Techniker kommt und [6] repariert. [7] wir zusammen essen, oder? Bis Donnerstag! LG Corina",
+                options: {
+                    1: ["auf", "zur", "nach"],
+                    2: ["an dem", "an die", "an der"],
+                    3: ["um", "auf", "an"],
+                    4: ["park", "parkt", "parken"],
+                    5: ["auf", "auf die", "auf der"],
+                    6: ["muss", "darfst", "kann"],
+                    7: ["an dem", "an", "am"],
+                    8: ["nimm", "nehmen", "nimmt"]
+                },
+                answers: {1: "am", 2: "dich", 3: "bis", 4: "die Messe", 5: "von", 6: "repariert", 7: "Sollen", 8: "wir"}
+            },
+            17: {
+                title: "Übung 17: Lesen Sie die Sätze. Wählen Sie die richtige Form.",
+                text: "Wie finde ich den Weg?\n1. Wie komme ich [1] Carl-Röntgen-Straße?\n2. Zum Rathaus? [2] Sie die Straße geradeaus weiter.\n3. Muss ich [3] ersten Kreuzung abbiegen?\n4. [4] die dritte Straße links ab.\n5. Fahr nach zwanzig Kilometern [5] Bundesstraße 51.\n6. [6] Sie Ihr Auto im Parkhaus „Altstadt-Nord“.\n7. Steigen Sie nicht [7] S-Bahnhof „Brühl-West“, sondern „Brühl-Mitte“ aus.\n8. [8] doch die Linie S6 bis „Markt“.",
+                options: {
+                    1: ["auf", "zur", "nach"],
+                    2: ["gehen", "gehend", "am"],
+                    3: ["war", "hatte", "habe"],
+                    4: ["park", "parkt", "parken"],
+                    5: ["auf", "auf die", "auf der"],
+                    6: ["muss", "darfst", "kann"],
+                    7: ["an dem", "an", "am"],
+                    8: ["nimm", "nehmen", "nimmt"]
+                },
+                answers: {1: "zur", 2: "Gehen", 3: "an der", 4: "Fahren Sie", 5: "auf die", 6: "Stellen", 7: "am", 8: "Nehmen Sie"}
+            }
+        };
+        
+        // Function to load all exercises
+        function loadAllExercises() {
+            const exerciseContainer = document.getElementById('all-exercises-container');
+            exerciseContainer.innerHTML = '';
+            
+            Object.keys(exercises).forEach((exerciseNumber, index) => {
+                const exercise = exercises[exerciseNumber];
+                
+                // Create container for this exercise
+                const exerciseDiv = document.createElement('div');
+                exerciseDiv.className = 'exercise-container';
+                exerciseDiv.id = `exercise-${exerciseNumber}`;
+                
+                // Add separator if not first exercise
+                if (index > 0) {
+                    const separator = document.createElement('div');
+                    separator.className = 'exercise-separator';
+                    exerciseContainer.appendChild(separator);
+                }
+                
+                let html = `
+                    <div class="exercise-title">${exercise.title}</div>
+                    <div class="exercise-text">
+                `;
+                
+                // Split text by brackets to insert select elements
+                let parts = exercise.text.split(/\[(\d+)\]/g);
+                for (let i = 0; i < parts.length; i++) {
+                    if (i % 2 === 0) {
+                        // Text part
+                        html += parts[i];
+                    } else {
+                        // Number part (need to insert select)
+                        const number = parts[i];
+                        if (exercise.options && exercise.options[number]) {
+                            html += `<select id="answer-${exerciseNumber}-${number}" data-exercise="${exerciseNumber}" data-number="${number}">`;
+                            html += `<option value="">---</option>`;
+                            exercise.options[number].forEach(option => {
+                                html += `<option value="${option}">${option}</option>`;
+                            });
+                            html += `</select>`;
+                        } else {
+                            html += `<select id="answer-${exerciseNumber}-${number}" data-exercise="${exerciseNumber}" data-number="${number}">`;
+                            html += `<option value="">---</option>`;
+                            html += `</select>`;
+                        }
+                    }
+                }
+                
+                html += `</div>`;
+                html += `<div class="button-container">
+                    <button class="check-exercise" data-exercise="${exerciseNumber}">Check Exercise</button>
+                    <button class="reset-exercise" data-exercise="${exerciseNumber}">Reset</button>
+                </div>
+                <div id="feedback-${exerciseNumber}" class="exercise-feedback" style="display: none;"></div>`;
+                
+                exerciseDiv.innerHTML = html;
+                exerciseContainer.appendChild(exerciseDiv);
+            });
+            
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.check-exercise').forEach(button => {
+                button.addEventListener('click', function() {
+                    const exerciseNumber = this.dataset.exercise;
+                    checkExercise(exerciseNumber);
+                });
+            });
+            
+            document.querySelectorAll('.reset-exercise').forEach(button => {
+                button.addEventListener('click', function() {
+                    const exerciseNumber = this.dataset.exercise;
+                    resetExercise(exerciseNumber);
+                });
+            });
+        }
+        
+        // Check a specific exercise
+        function checkExercise(exerciseNumber) {
+            const exercise = exercises[exerciseNumber];
+            if (!exercise || !exercise.answers) return;
+            
+            let correct = 0;
+            let total = 0;
+            
+            // Get all select elements for this exercise
+            const selects = document.querySelectorAll(`select[data-exercise="${exerciseNumber}"]`);
+            selects.forEach(select => {
+                const number = select.dataset.number;
+                if (exercise.answers[number]) {
+                    total++;
+                    if (select.value === exercise.answers[number]) {
+                        select.className = 'correct';
+                        correct++;
+                    } else {
+                        select.className = 'incorrect';
+                    }
+                }
+            });
+            
+            // Show feedback for this exercise
+            const feedback = document.getElementById(`feedback-${exerciseNumber}`);
+            feedback.innerHTML = `You got ${correct} out of ${total} correct!`;
+            feedback.className = correct === total ? 'exercise-feedback correct-feedback' : 'exercise-feedback incorrect-feedback';
+            feedback.style.display = 'block';
+        }
+        
+        // Reset a specific exercise
+        function resetExercise(exerciseNumber) {
+            // Get all select elements for this exercise
+            const selects = document.querySelectorAll(`select[data-exercise="${exerciseNumber}"]`);
+            selects.forEach(select => {
+                select.value = '';
+                select.className = '';
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById(`feedback-${exerciseNumber}`);
+            feedback.style.display = 'none';
+        }
+        
+        // Check all exercises
+        function checkAllAnswers() {
+            Object.keys(exercises).forEach(exerciseNumber => {
+                checkExercise(exerciseNumber);
+            });
+        }
+        
+        // Reset all exercises
+        function resetAllExercises() {
+            Object.keys(exercises).forEach(exerciseNumber => {
+                resetExercise(exerciseNumber);
+            });
+        }
+        
+        // Event listeners for global buttons
+        document.getElementById('check-all-answers').addEventListener('click', checkAllAnswers);
+        document.getElementById('reset-all').addEventListener('click', resetAllExercises);
+        
+        // Initial load
+        loadAllExercises();
+    </script>
+</body>
+</html>

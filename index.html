@@ -645,6 +645,8 @@
         // Add change event listener to all select elements
         document.querySelectorAll("select[data-exercise]").forEach((select) => {
           select.addEventListener("change", function () {
+            // Clear class when user changes answer
+            this.className = "";
             saveExerciseState(); // Save state when an answer changes
           });
         });

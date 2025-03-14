@@ -131,11 +131,6 @@
       <!-- All exercises will be loaded here -->
     </div>
 
-    <div class="button-container">
-      <button id="check-all-answers">Check All Answers</button>
-      <button id="reset-all">Reset All</button>
-    </div>
-
     <div id="total-score" class="total-score"></div>
 
     <script>
@@ -631,6 +626,9 @@
           button.addEventListener("click", function () {
             const exerciseNumber = this.dataset.exercise;
             checkExercise(exerciseNumber);
+            // Automatically calculate total score after checking an exercise
+            updateTotalScore();
+            saveExerciseState(); // Save state after checking
           });
         });
 
@@ -638,8 +636,180 @@
           button.addEventListener("click", function () {
             const exerciseNumber = this.dataset.exercise;
             resetExercise(exerciseNumber);
+            // Update total score after resetting an exercise
+            updateTotalScore();
+            saveExerciseState(); // Save state after resetting
           });
         });
+
+        // Add change event listener to all select elements
+        document.querySelectorAll("select[data-exercise]").forEach((select) => {
+          select.addEventListener("change", function () {
+            saveExerciseState(); // Save state when an answer changes
+          });
+        });
+
+        // Load saved state if available
+        loadExerciseState();
+
+        // Update total score on initial load
+        updateTotalScore();
+      }
+
+      // Save the current state to localStorage
+      function saveExerciseState() {
+        try {
+          // Save all select values
+          const selectValues = {};
+          document
+            .querySelectorAll("select[data-exercise]")
+            .forEach((select) => {
+              const exerciseNumber = select.dataset.exercise;
+              const questionNumber = select.dataset.number;
+
+              if (!selectValues[exerciseNumber]) {
+                selectValues[exerciseNumber] = {};
+              }
+
+              selectValues[exerciseNumber][questionNumber] = select.value;
+            });
+          localStorage.setItem(
+            "ubungenSelectValues",
+            JSON.stringify(selectValues)
+          );
+
+          // Save all feedback visibility
+          const feedbackState = {};
+          Object.keys(exercises).forEach((exerciseNumber) => {
+            const feedback = document.getElementById(
+              `feedback-${exerciseNumber}`
+            );
+            feedbackState[exerciseNumber] = {
+              visible: feedback.style.display !== "none",
+              content: feedback.innerHTML,
+              className: feedback.className,
+            };
+          });
+          localStorage.setItem(
+            "ubungenFeedbackState",
+            JSON.stringify(feedbackState)
+          );
+
+          // Save total score visibility
+          const totalScore = document.getElementById("total-score");
+          localStorage.setItem(
+            "ubungenTotalScoreVisible",
+            totalScore.style.display !== "none"
+          );
+          localStorage.setItem(
+            "ubungenTotalScoreContent",
+            totalScore.innerHTML
+          );
+
+          // Save select classes (correct/incorrect)
+          const selectClasses = {};
+          document
+            .querySelectorAll("select[data-exercise]")
+            .forEach((select) => {
+              const exerciseNumber = select.dataset.exercise;
+              const questionNumber = select.dataset.number;
+
+              if (!selectClasses[exerciseNumber]) {
+                selectClasses[exerciseNumber] = {};
+              }
+
+              selectClasses[exerciseNumber][questionNumber] = select.className;
+            });
+          localStorage.setItem(
+            "ubungenSelectClasses",
+            JSON.stringify(selectClasses)
+          );
+        } catch (error) {
+          console.error("Error saving to localStorage:", error);
+        }
+      }
+
+      // Load saved state from localStorage
+      function loadExerciseState() {
+        try {
+          // Load select values
+          const selectValues = JSON.parse(
+            localStorage.getItem("ubungenSelectValues") || "{}"
+          );
+          Object.keys(selectValues).forEach((exerciseNumber) => {
+            const exerciseAnswers = selectValues[exerciseNumber];
+            Object.keys(exerciseAnswers).forEach((questionNumber) => {
+              const selectElement = document.getElementById(
+                `answer-${exerciseNumber}-${questionNumber}`
+              );
+              if (selectElement) {
+                selectElement.value = exerciseAnswers[questionNumber];
+              }
+            });
+          });
+
+          // Load select classes
+          const selectClasses = JSON.parse(
+            localStorage.getItem("ubungenSelectClasses") || "{}"
+          );
+          Object.keys(selectClasses).forEach((exerciseNumber) => {
+            const exerciseClasses = selectClasses[exerciseNumber];
+            Object.keys(exerciseClasses).forEach((questionNumber) => {
+              const selectElement = document.getElementById(
+                `answer-${exerciseNumber}-${questionNumber}`
+              );
+              if (selectElement) {
+                selectElement.className = exerciseClasses[questionNumber];
+              }
+            });
+          });
+
+          // Load feedback state
+          const feedbackState = JSON.parse(
+            localStorage.getItem("ubungenFeedbackState") || "{}"
+          );
+          Object.keys(feedbackState).forEach((exerciseNumber) => {
+            const feedback = document.getElementById(
+              `feedback-${exerciseNumber}`
+            );
+            if (feedback && feedbackState[exerciseNumber]) {
+              feedback.style.display = feedbackState[exerciseNumber].visible
+                ? "block"
+                : "none";
+              feedback.innerHTML = feedbackState[exerciseNumber].content || "";
+              feedback.className =
+                feedbackState[exerciseNumber].className || "exercise-feedback";
+            }
+          });
+
+          // Load total score state
+          const totalScore = document.getElementById("total-score");
+          const isVisible =
+            localStorage.getItem("ubungenTotalScoreVisible") === "true";
+          totalScore.style.display = isVisible ? "block" : "none";
+          if (isVisible) {
+            totalScore.innerHTML =
+              localStorage.getItem("ubungenTotalScoreContent") || "";
+          }
+
+          // After loading everything, update the total score
+          updateTotalScore();
+        } catch (error) {
+          console.error("Error loading from localStorage:", error);
+        }
+      }
+
+      // Clear all saved data
+      function clearSavedData() {
+        try {
+          localStorage.removeItem("ubungenSelectValues");
+          localStorage.removeItem("ubungenFeedbackState");
+          localStorage.removeItem("ubungenTotalScoreVisible");
+          localStorage.removeItem("ubungenTotalScoreContent");
+          localStorage.removeItem("ubungenSelectClasses");
+        } catch (error) {
+          console.error("Error clearing localStorage:", error);
+        }
       }
 
       // Check a specific exercise
@@ -706,6 +876,28 @@
         return { totalCorrect, totalQuestions };
       }
 
+      // Update and display the total score
+      function updateTotalScore() {
+        const { totalCorrect, totalQuestions } = calculateTotalScore();
+
+        // Only show score if there are any answers selected
+        if (totalQuestions > 0) {
+          const scorePercentage = Math.round(
+            (totalCorrect / totalQuestions) * 100
+          );
+
+          const totalScoreElement = document.getElementById("total-score");
+          totalScoreElement.innerHTML = `
+            <div>Total Score: <span class="score-number">${totalCorrect}/${totalQuestions}</span> 
+            <span class="score-percent">(${scorePercentage}%)</span></div>
+          `;
+          totalScoreElement.style.display = "block";
+        } else {
+          // Hide score if no answers are selected
+          document.getElementById("total-score").style.display = "none";
+        }
+      }
+
       // Reset a specific exercise
       function resetExercise(exerciseNumber) {
         // Get all select elements for this exercise
@@ -720,44 +912,10 @@
         // Hide feedback
         const feedback = document.getElementById(`feedback-${exerciseNumber}`);
         feedback.style.display = "none";
+
+        // Save the updated state
+        saveExerciseState();
       }
-
-      // Check all exercises
-      function checkAllAnswers() {
-        Object.keys(exercises).forEach((exerciseNumber) => {
-          checkExercise(exerciseNumber);
-        });
-
-        const { totalCorrect, totalQuestions } = calculateTotalScore();
-        const scorePercentage = Math.round(
-          (totalCorrect / totalQuestions) * 100
-        );
-
-        const totalScoreElement = document.getElementById("total-score");
-        totalScoreElement.innerHTML = `
-          <div>Total Score: <span class="score-number">${totalCorrect}/${totalQuestions}</span> 
-          <span class="score-percent">(${scorePercentage}%)</span></div>
-        `;
-        totalScoreElement.style.display = "block";
-      }
-
-      // Reset all exercises
-      function resetAllExercises() {
-        Object.keys(exercises).forEach((exerciseNumber) => {
-          resetExercise(exerciseNumber);
-        });
-
-        // Hide total score when resetting
-        document.getElementById("total-score").style.display = "none";
-      }
-
-      // Event listeners for global buttons
-      document
-        .getElementById("check-all-answers")
-        .addEventListener("click", checkAllAnswers);
-      document
-        .getElementById("reset-all")
-        .addEventListener("click", resetAllExercises);
 
       // Initial load
       loadAllExercises();
